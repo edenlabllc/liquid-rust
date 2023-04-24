@@ -5,6 +5,14 @@ NON_WHITESPACE_CONTROL_HYPHEN = _{ !"-}}" ~ !"-%}" ~ "-" }
 LaxLiquidFile = ${ SOI ~ (Element | InvalidLiquid)* ~ EOI }
 LiquidFile = ${ SOI ~ Element* ~ EOI }
 
+// Literals
+NilLiteral = @{ "nil" | "null" }
+EmptyLiteral = @{ "empty" }
+BlankLiteral = @{ "blank" }
+StringLiteral = @{ ("'" ~ (!"'" ~ ANY)* ~ "'")
+		        		 | ("\"" ~ (!"\"" ~ ANY)* ~ "\"") }
+IntegerLiteral = @{ ("+" | "-")? ~ ASCII_DIGIT+ }
+
 // A token that could not be parsed as valid liquid
 InvalidLiquid = { !Expression ~ ANY }
 
@@ -32,6 +40,7 @@ Identifier = @{ (ASCII_ALPHA | "_" | NON_WHITESPACE_CONTROL_HYPHEN) ~ (ASCII_ALP
 Variable = ${ Identifier
             ~ ( ("." ~ Identifier)
               | ("[" ~ WHITESPACE* ~ Value ~ WHITESPACE* ~ "]")
+              | ("." ~ IntegerLiteral)
               )*
             }
 Value = { Literal | Variable }
@@ -41,14 +50,7 @@ PositionalFilterArgument = {Value}
 KeywordFilterArgument = {Identifier ~ ":" ~ Value}
 FilterArgument = _{KeywordFilterArgument | PositionalFilterArgument }
 
-// Literals
-NilLiteral = @{ "nil" | "null" }
-EmptyLiteral = @{ "empty" }
-BlankLiteral = @{ "blank" }
-StringLiteral = @{ ("'" ~ (!"'" ~ ANY)* ~ "'")
-		        		 | ("\"" ~ (!"\"" ~ ANY)* ~ "\"") }
 
-IntegerLiteral = @{ ("+" | "-")? ~ ASCII_DIGIT+ }
 FloatLiteral = @{ ("+" | "-")? ~ ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+ }
 
 BooleanLiteral = @{ "true" | "false" }

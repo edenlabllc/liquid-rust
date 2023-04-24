@@ -141,6 +141,13 @@ fn parse_variable(variable: Pair) -> Variable {
     let indexes = indexes.map(|index| match index.as_rule() {
         Rule::Identifier => Expression::with_literal(index.as_str().to_owned()),
         Rule::Value => parse_value(index),
+        Rule::IntegerLiteral => {
+            let index = index
+                .as_str()
+                .parse::<i64>()
+                .expect("Grammar ensures matches are parseable as integers.");
+            Expression::Literal(Value::scalar(index))
+        }
         _ => unreachable!(),
     });
 
@@ -1130,6 +1137,48 @@ mod test {
         let indexes = vec![
             Expression::Literal(Value::scalar(0)),
             Expression::Literal(Value::scalar("bar")),
+            Expression::Literal(Value::scalar("baz")),
+            Expression::Variable(Variable::with_literal("foo").push_literal("bar")),
+        ];
+
+        let mut expected = Variable::with_literal("foo");
+        expected.extend(indexes);
+
+        assert_eq!(parse_variable(variable), expected);
+    }
+
+    #[test]
+    fn test_parse_variable_with_dot_separated_array_index() {
+        let variable = LiquidParser::parse(Rule::Variable, "foo.0.bar.baz[foo.bar]")
+            .unwrap()
+            .next()
+            .unwrap();
+
+        let indexes = vec![
+            Expression::Literal(Value::scalar(0)),
+            Expression::Literal(Value::scalar("bar")),
+            Expression::Literal(Value::scalar("baz")),
+            Expression::Variable(Variable::with_literal("foo").push_literal("bar")),
+        ];
+
+        let mut expected = Variable::with_literal("foo");
+        expected.extend(indexes);
+
+        assert_eq!(parse_variable(variable), expected);
+    }
+
+    #[test]
+    fn test_parse_variable_with_dot_separated_array_index2() {
+        let variable = LiquidParser::parse(Rule::Variable, "foo.0.bar.2.4.baz[foo.bar]")
+            .unwrap()
+            .next()
+            .unwrap();
+
+        let indexes = vec![
+            Expression::Literal(Value::scalar(0)),
+            Expression::Literal(Value::scalar("bar")),
+            Expression::Literal(Value::scalar(2)),
+            Expression::Literal(Value::scalar(4)),
             Expression::Literal(Value::scalar("baz")),
             Expression::Variable(Variable::with_literal("foo").push_literal("bar")),
         ];
