@@ -1168,6 +1168,28 @@ mod test {
     }
 
     #[test]
+    fn test_parse_variable_with_dot_separated_array_index2() {
+        let variable = LiquidParser::parse(Rule::Variable, "foo.0.bar.2.4.baz[foo.bar]")
+            .unwrap()
+            .next()
+            .unwrap();
+
+        let indexes = vec![
+            Expression::Literal(Value::scalar(0)),
+            Expression::Literal(Value::scalar("bar")),
+            Expression::Literal(Value::scalar(2)),
+            Expression::Literal(Value::scalar(4)),
+            Expression::Literal(Value::scalar("baz")),
+            Expression::Variable(Variable::with_literal("foo").push_literal("bar")),
+        ];
+
+        let mut expected = Variable::with_literal("foo");
+        expected.extend(indexes);
+
+        assert_eq!(parse_variable(variable), expected);
+    }
+
+    #[test]
     fn test_whitespace_control() {
         let options = Language::default();
 
