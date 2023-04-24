@@ -37,7 +37,7 @@ pre-release-replacements = [
 ]
 
 [features]
-default = ["stdlib", "derive", "core"]
+default = ["lib", "derive", "core"]
 stdlib = ["liquid-lib/stdlib"]
 lib = ["liquid-lib"]
 derive = ["liquid-derive"]
