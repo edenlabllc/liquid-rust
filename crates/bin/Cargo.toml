@@ -1,6 +1,6 @@
 [package]
 name = "liquid-bin"
-version = "0.26.1"
+version = "0.26.3"
 authors = ["Ed Page <eopage@gmail.com>"]
 description = "The liquid templating language for Rust"
 repository = "https://github.com/cobalt-org/liquid-rust"
@@ -8,26 +8,19 @@ documentation = "https://docs.rs/liquid"
 readme = "README.md"
 categories = ["template-engine"]
 keywords = ["liquid", "template", "templating", "language", "html"]
-license = "MIT OR Apache-2.0"
-edition = "2021"
-rust-version = "1.60.0"  # MSRV
-include = [
-  "src/**/*",
-  "Cargo.toml",
-  "LICENSE*",
-  "README.md",
-  "examples/**/*"
-]
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+include.workspace = true
 
-[package.metadata.release]
-pre-release-replacements = [
-  {file="README.md", search="liquid-bin = \".*\"", replace="liquid-bin = \"{{version}}\"", exactly=1},
-]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-liquid = { version = "^0.26.1", path = "../../" }
-serde = { version = "1.0", features = ["derive"] }
-clap = { version = "3.1", features = ["derive"] }
+liquid = { version = "^0.26.4", path = "../../" }
+serde = { version = "1.0.157", features = ["derive"] }
+clap = { version = "4.3", features = ["derive"] }
 serde_yaml = "0.8"
 serde_json = "1.0"
 derive_more = "0.99.2"

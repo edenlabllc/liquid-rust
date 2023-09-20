@@ -51,6 +51,7 @@ where
             .tag(stdlib::IncludeTag)
             .tag(stdlib::IncrementTag)
             .tag(stdlib::DecrementTag)
+            .tag(stdlib::RenderTag)
             .block(stdlib::RawBlock)
             .block(stdlib::IfBlock)
             .block(stdlib::UnlessBlock)
@@ -165,7 +166,8 @@ where
         let options = sync::Arc::new(options);
         let partials = partials
             .map(|p| p.compile(options.clone()))
-            .map_or(Ok(None), |r| r.map(Some))?
+            .map(|r| r.map(Some))
+            .unwrap_or(Ok(None))?
             .map(|p| p.into());
         let p = Parser { options, partials };
         Ok(p)

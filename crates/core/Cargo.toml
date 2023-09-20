@@ -1,6 +1,6 @@
 [package]
 name = "liquid-core"
-version = "0.26.1"
+version = "0.26.4"
 authors = ["Ed Page <eopage@gmail.com>"]
 description = "Core liquid functionality"
 repository = "https://github.com/cobalt-org/liquid-rust/tree/master/crate/core"
@@ -8,25 +8,18 @@ documentation = "https://docs.rs/liquid-core"
 readme = "README.md"
 categories = ["template-engine"]
 keywords = ["liquid", "template", "templating", "language", "html"]
-license = "MIT OR Apache-2.0"
-edition = "2021"
-rust-version = "1.60.0"  # MSRV
-include = [
-  "src/**/*",
-  "Cargo.toml",
-  "LICENSE*",
-  "README.md",
-  "examples/**/*"
-]
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+include.workspace = true
 
-[package.metadata.release]
-pre-release-replacements = [
-  {file="README.md", search="liquid-core = \".*\"", replace="liquid-core = \"{{version}}\"", exactly=1},
-]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 anymap2 = "0.13"
-itertools = "0.10.0"
+itertools = "0.11.0"
 num-traits = "0.2"
 pest = "2.0"
 pest_derive = "2.0"
@@ -34,13 +27,13 @@ regex = "1.5"
 
 # Exposed in API
 time = { version = "0.3", default-features = false, features = ["formatting", "macros", "parsing"] }
-serde = { version = "1.0", features = ["derive"] }
+serde = { version = "1.0.157", features = ["derive"] }
 kstring = { version = "2.0", features = ["serde"] }
-liquid-derive = { version = "^0.26.1", path = "../derive", optional = true }
+liquid-derive = { version = "^0.26.4", path = "../derive", optional = true }
 
 [dev-dependencies]
 serde_yaml = "0.8"
-snapbox = "0.4.4"
+snapbox = "0.4.12"
 
 [features]
 default = []

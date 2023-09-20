@@ -1,6 +1,6 @@
 [package]
 name = "liquid-lib"
-version = "0.26.1"
+version = "0.26.4"
 authors = ["Johann Hofmann <mail@johann-hofmann.com>"]
 description = "The liquid templating language for Rust"
 repository = "https://github.com/cobalt-org/liquid-rust/tree/master/liquid-lib"
@@ -8,28 +8,18 @@ documentation = "https://docs.rs/liquid-lib"
 readme = "README.md"
 categories = ["template-engine"]
 keywords = ["liquid", "template", "templating", "language", "html"]
-license = "MIT OR Apache-2.0"
-edition = "2021"
-rust-version = "1.60.0"  # MSRV
-include = [
-  "src/**/*",
-  "Cargo.toml",
-  "LICENSE*",
-  "README.md",
-  "examples/**/*"
-]
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+include.workspace = true
 
 [package.metadata.docs.rs]
 features = [ "default", "jekyll", "all" ]
-
-[package.metadata.release]
-pre-release-replacements = [
-  {file="README.md", search="liquid-lib = \".*\"", replace="liquid-lib = \"{{version}}\"", exactly=1},
-]
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-liquid-core = { version = "^0.26.1", path = "../core", features = ["derive"] }
-itertools = "0.10.0"
+liquid-core = { version = "^0.26.4", path = "../core", features = ["derive"] }
+itertools = "0.11.0"
 regex = "1.0"
 unicode-segmentation = "1.2"
 percent-encoding = "2.0"

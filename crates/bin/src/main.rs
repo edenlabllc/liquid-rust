@@ -39,13 +39,13 @@ fn build_context(path: &path::Path) -> Result<liquid::Object, Box<dyn std::error
 
 #[derive(Parser)]
 struct Args {
-    #[clap(long, parse(from_os_str))]
+    #[arg(long)]
     input: std::path::PathBuf,
 
-    #[clap(long, parse(from_os_str))]
+    #[arg(long)]
     output: Option<std::path::PathBuf>,
 
-    #[clap(long, parse(from_os_str))]
+    #[arg(long)]
     context: Option<std::path::PathBuf>,
 }
 
@@ -61,7 +61,8 @@ fn run() -> Result<i32, Box<dyn std::error::Error>> {
         .context
         .as_ref()
         .map(|p| build_context(p.as_path()))
-        .map_or(Ok(None), |r| r.map(Some))?
+        .map(|r| r.map(Some))
+        .unwrap_or(Ok(None))?
         .unwrap_or_else(liquid::Object::new);
     let output = template.render(&data)?;
     match args.output {
