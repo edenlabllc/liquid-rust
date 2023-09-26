@@ -28,6 +28,7 @@ impl FilterChain {
 
         // apply all specified filters
         for filter in &self.filters {
+            println!("filter: {:#?}", filter);
             entry = ValueCow::Owned(
                 filter
                     .evaluate(entry.as_view(), runtime)
