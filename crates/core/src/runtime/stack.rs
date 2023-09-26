@@ -134,13 +134,17 @@ impl<P: super::Runtime> super::Runtime for GlobalFrame<P> {
     }
 
     fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
-        println!("get?: {:#?}", path);
         let key = path.first().ok_or_else(|| {
             Error::with_msg("Unknown variable").context("requested variable", "nil")
         })?;
         let key = key.to_kstr();
         let data = self.data.borrow();
         if data.contains_key(key.as_str()) {
+            println!(
+                "before find, data: {:#?}, path: {:#?}",
+                data.as_value(),
+                path
+            );
             crate::model::find(data.as_value(), path).map(|v| v.into_owned().into())
         } else {
             self.parent.get(path)
