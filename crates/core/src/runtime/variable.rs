@@ -50,9 +50,7 @@ impl Variable {
         let mut path = Path::with_index(self.variable.as_ref());
         path.reserve(self.indexes.len());
         for expr in &self.indexes {
-            println!("var expr: {:#?}", expr);
             let v = expr.evaluate(runtime)?;
-            println!("var v: {:#?}", v);
             let s = match v {
                 ValueCow::Owned(v) => v.into_scalar(),
                 ValueCow::Borrowed(v) => v.as_scalar(),

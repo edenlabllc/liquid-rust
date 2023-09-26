@@ -193,7 +193,9 @@ fn augmented_get<'o>(value: &'o dyn ValueView, index: &ScalarCow<'_>) -> Option<
 
 /// Find a `ValueView` nested in an `ObjectView`
 pub fn find<'o>(value: &'o dyn ValueView, path: &[ScalarCow<'_>]) -> Result<ValueCow<'o>> {
-    if let Some(res) = try_find(value, path) {
+    let first_res = try_find(value, path);
+    println!("first res: {:#?}", first_res);
+    if let Some(res) = first_res {
         Ok(res)
     } else {
         for cur_idx in 1..path.len() {

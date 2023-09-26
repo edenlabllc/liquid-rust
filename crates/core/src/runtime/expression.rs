@@ -57,10 +57,7 @@ impl Expression {
             Expression::Literal(ref x) => ValueCow::Borrowed(x),
             Expression::Variable(ref x) => {
                 let path = x.evaluate(runtime)?;
-                println!("path: {:#?}", path);
-                let a = runtime.get(&path)?;
-                println!("after runtime get: {:#?}", a);
-                a
+                runtime.get(&path)?
             }
         };
         Ok(val)
