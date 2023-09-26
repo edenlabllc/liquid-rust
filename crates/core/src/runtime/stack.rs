@@ -134,6 +134,7 @@ impl<P: super::Runtime> super::Runtime for GlobalFrame<P> {
     }
 
     fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
+        println!("get?: {:#?}", path);
         let key = path.first().ok_or_else(|| {
             Error::with_msg("Unknown variable").context("requested variable", "nil")
         })?;
