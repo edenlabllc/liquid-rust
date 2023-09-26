@@ -52,6 +52,7 @@ impl Variable {
         for expr in &self.indexes {
             println!("var expr: {:#?}", expr);
             let v = expr.evaluate(runtime)?;
+            println!("var v: {:#?}", v);
             let s = match v {
                 ValueCow::Owned(v) => v.into_scalar(),
                 ValueCow::Borrowed(v) => v.as_scalar(),
