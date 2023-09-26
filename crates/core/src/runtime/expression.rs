@@ -58,7 +58,9 @@ impl Expression {
             Expression::Variable(ref x) => {
                 let path = x.evaluate(runtime)?;
                 println!("path: {:#?}", path);
-                runtime.get(&path)?
+                let a = runtime.get(&path)?;
+                println!("after runtime get: {:#?}", a);
+                a
             }
         };
         Ok(val)
