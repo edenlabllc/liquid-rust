@@ -302,6 +302,7 @@ impl<P: super::Runtime, O: ObjectView> super::Runtime for SandboxedStackFrame<P,
         })?;
         let key = key.to_kstr();
         let data = &self.data;
+        println!("data? : {:#?}", data);
         data.get(key.as_str())
             .and_then(|_| crate::model::try_find(data.as_value(), path))
             .map(|v| v.into_owned().into())
