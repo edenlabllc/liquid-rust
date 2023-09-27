@@ -24,7 +24,7 @@ impl FilterChain {
     /// Process `Value` expression within `runtime`'s stack.
     pub fn evaluate<'s>(&'s self, runtime: &'s dyn Runtime) -> Result<ValueCow<'s>> {
         // take either the provided value or the value from the provided variable
-        println!("before filter chain eval");
+        println!("before filter chain eval: {:#?}", self.entry);
         let mut entry = self.entry.evaluate(runtime)?;
         println!("after filter chain eval: {:#?}", entry);
 
