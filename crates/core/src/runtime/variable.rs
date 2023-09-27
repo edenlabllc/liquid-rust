@@ -48,10 +48,12 @@ impl Variable {
     /// Convert to a `Path`.
     pub fn evaluate<'c>(&'c self, runtime: &'c dyn Runtime) -> Result<Path<'c>> {
         let mut path = Path::with_index(self.variable.as_ref());
-        println!("path: {:#?}, indexes: {:#?}", path, self.indexes);
+        println!("path: {:#?}", path);
         path.reserve(self.indexes.len());
         for expr in &self.indexes {
+            println!("expr: {:#?}", expr);
             let v = expr.evaluate(runtime)?;
+            println!("v: {:#?}", v);
             let s = match v {
                 ValueCow::Owned(v) => v.into_scalar(),
                 ValueCow::Borrowed(v) => v.as_scalar(),
