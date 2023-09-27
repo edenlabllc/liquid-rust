@@ -21,7 +21,6 @@ impl Template {
 impl Renderable for Template {
     fn render_to(&self, writer: &mut dyn Write, runtime: &dyn Runtime) -> Result<()> {
         for el in &self.elements {
-            println!("Element {:#?}", el);
             el.render_to(writer, runtime)?;
 
             // Did the last element we processed set an interrupt? If so, we

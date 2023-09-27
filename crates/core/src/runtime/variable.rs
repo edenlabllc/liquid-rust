@@ -63,7 +63,6 @@ impl Variable {
             })?;
             path.push(s);
         }
-        println!("path: {:#?}", path);
         Ok(path)
     }
 }

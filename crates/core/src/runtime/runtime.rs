@@ -242,12 +242,8 @@ impl<'g> Runtime for RuntimeCore<'g> {
         None
     }
 
-    fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
+    fn get(&self, _path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
         Ok(ValueCow::Owned(Value::Nil))
-        // let key = path.first().cloned().unwrap_or_else(|| Scalar::new("nil"));
-        // Error::with_msg("Unknown variable")
-        //     .context("requested variable", key.to_kstr())
-        //     .into_err()
     }
 
     fn set_global(
