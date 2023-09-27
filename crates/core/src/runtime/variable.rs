@@ -48,6 +48,7 @@ impl Variable {
     /// Convert to a `Path`.
     pub fn evaluate<'c>(&'c self, runtime: &'c dyn Runtime) -> Result<Path<'c>> {
         let mut path = Path::with_index(self.variable.as_ref());
+        println!("path: {:#?}", path);
         path.reserve(self.indexes.len());
         for expr in &self.indexes {
             let v = expr.evaluate(runtime)?;
