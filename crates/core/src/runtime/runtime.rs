@@ -193,6 +193,7 @@ impl ObjectView for NullObject {
     }
 
     fn get<'s>(&'s self, _index: &str) -> Option<&'s dyn ValueView> {
+        println!("null object");
         None
     }
 }
@@ -244,6 +245,7 @@ impl<'g> Runtime for RuntimeCore<'g> {
 
     fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
         let key = path.first().cloned().unwrap_or_else(|| Scalar::new("nil"));
+        println!("runtime code: {:#?}", key);
         Error::with_msg("Unknown variable")
             .context("requested variable", key.to_kstr())
             .into_err()
