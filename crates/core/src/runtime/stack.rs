@@ -59,7 +59,7 @@ impl<P: super::Runtime, O: ObjectView> super::Runtime for StackFrame<P, O> {
 
     fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
         let key = path.first().ok_or_else(|| {
-            Error::with_msg("Unknown variable").context("requested variable", "nil")
+            Error::with_msg("Unknown variable").context("requested variable StackFrame", "nil")
         })?;
         let key = key.to_kstr();
         let data = &self.data;
@@ -135,7 +135,7 @@ impl<P: super::Runtime> super::Runtime for GlobalFrame<P> {
 
     fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
         let key = path.first().ok_or_else(|| {
-            Error::with_msg("Unknown variable").context("requested variable", "nil")
+            Error::with_msg("Unknown variable").context("requested variable GlobalFrame", "nil")
         })?;
         let key = key.to_kstr();
         let data = self.data.borrow();
@@ -210,7 +210,7 @@ impl<P: super::Runtime> super::Runtime for IndexFrame<P> {
 
     fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
         let key = path.first().ok_or_else(|| {
-            Error::with_msg("Unknown variable").context("requested variable", "nil")
+            Error::with_msg("Unknown variable").context("requested variable IndexFrame", "nil")
         })?;
         let key = key.to_kstr();
         let data = self.data.borrow();
@@ -298,14 +298,18 @@ impl<P: super::Runtime, O: ObjectView> super::Runtime for SandboxedStackFrame<P,
 
     fn get(&self, path: &[ScalarCow<'_>]) -> Result<ValueCow<'_>> {
         let key = path.first().ok_or_else(|| {
-            Error::with_msg("Unknown variable").context("requested variable", "nil")
+            Error::with_msg("Unknown variable")
+                .context("requested variable SandboxedStackFrame 1", "nil")
         })?;
         let key = key.to_kstr();
         let data = &self.data;
         data.get(key.as_str())
             .and_then(|_| crate::model::try_find(data.as_value(), path))
             .map(|v| v.into_owned().into())
-            .ok_or_else(|| Error::with_msg("Unknown variable").context("requested variable", key))
+            .ok_or_else(|| {
+                Error::with_msg("Unknown variable")
+                    .context("requested variable SandboxedStackFrame 2", key)
+            })
     }
 
     fn set_global(
