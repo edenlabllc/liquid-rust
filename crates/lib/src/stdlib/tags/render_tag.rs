@@ -175,7 +175,7 @@ impl Renderable for Render {
                     for (id, val) in &self.vars {
                         let value = val
                             .try_evaluate(runtime)
-                            .ok_or_else(|| Error::with_msg("failed to evaluate value"))?;
+                            .ok_or_else(|| Error::with_msg("failed to evaluate value3"))?;
 
                         root.insert(id.as_ref(), value);
                     }
@@ -212,7 +212,7 @@ impl Renderable for Render {
             for (id, val) in &self.vars {
                 let value = val
                     .try_evaluate(runtime)
-                    .ok_or_else(|| Error::with_msg("failed to evaluate value"))?;
+                    .ok_or_else(|| Error::with_msg("failed to evaluate value4"))?;
 
                 root.insert(id.as_ref(), value);
             }
