@@ -98,11 +98,9 @@ impl Renderable for Include {
             let mut pass_through = std::collections::HashMap::new();
             if !self.vars.is_empty() {
                 for (id, val) in &self.vars {
-                    match val.try_evaluate(runtime) {
-                        Some(value) => {}
-                        None => {}
-                    }
-                    .ok_or_else(|| Error::with_msg("failed to evaluate value2"))?;
+                    let value = val
+                        .try_evaluate(runtime)
+                        .ok_or_else(|| Error::with_msg("failed to evaluate value2"))?;
 
                     pass_through.insert(id.as_ref(), value);
                 }
