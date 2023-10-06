@@ -96,7 +96,7 @@ impl Renderable for Include {
                 for (id, val) in &self.vars {
                     let value = val
                         .try_evaluate(runtime)
-                        .ok_or_else(|| Error::with_msg("failed to evaluate value"))?
+                        .ok_or_else(|| Error::with_msg("failed to evaluate value1"))?
                         .into_owned();
 
                     helper_vars.insert(id.as_ref(), value);
