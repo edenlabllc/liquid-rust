@@ -5,6 +5,8 @@ use liquid_core::model::KString;
 use liquid_core::Expression;
 use liquid_core::Language;
 use liquid_core::Renderable;
+use liquid_core::Value;
+use liquid_core::ValueCow;
 use liquid_core::ValueView;
 use liquid_core::{runtime::StackFrame, Runtime};
 use liquid_core::{Error, Result};
@@ -100,7 +102,7 @@ impl Renderable for Include {
                 for (id, val) in &self.vars {
                     let value = val
                         .try_evaluate(runtime)
-                        .ok_or_else(|| Error::with_msg("failed to evaluate value2"))?;
+                        .unwrap_or_else(|| ValueCow::Owned(Value::Nil));
 
                     pass_through.insert(id.as_ref(), value);
                 }
